@@ -76,13 +76,22 @@ Source: [Materials](https://developer.apple.com/design/human-interface-guideline
 
 **Project defaults:** Map screen titles, section headings, body text, supporting labels, and captions to the corresponding native styles. Use weight and hierarchy before adding more colors. Allow multiline labels and flexible component heights. Avoid forcing all content into fixed-height rows.
 
-| Content role | SwiftUI style example |
-| --- | --- |
-| Main screen title | `.largeTitle` or `.title` |
-| Section heading | `.headline` |
-| Main reading text | `.body` |
-| Supporting detail | `.subheadline` |
-| Minor annotation | `.caption` |
+**Project style mapping:** These role assignments are proposed defaults. Use native text styles rather than fixed font sizes.
+
+| Content role | SwiftUI style | Color | Weight and behavior |
+| --- | --- | --- | --- |
+| Top-level screen title | Native navigation title; `.largeTitle` for custom content | `.primary` | Use system navigation rendering; mark custom titles as accessibility headings |
+| Detail or result title | `.title2` | `.primary` | Semibold for custom titles; wrap when needed |
+| Major section heading | `.title3` | `.primary` | Semibold; consistent spacing before the section |
+| Card or subsection heading | `.headline` | `.primary` | Native style weight; align with related content |
+| Main text | `.body` | `.primary` | Regular; multiline for reading |
+| Screen description | `.body` | `.secondary` | Regular; explain purpose in one or two concise sentences |
+| Row description | `.subheadline` | `.secondary` | Regular; allow wrapping for meaningful detail |
+| Field help or informational copy | `.footnote` | `.secondary` | Regular; use `.body` for instructions essential to the task |
+| Small metadata | `.caption` | `.secondary` | Regular; avoid using it for critical information |
+| Inline error | `.subheadline` | Accessible error color | Regular; include specific text and an optional symbol |
+
+**Project defaults:** Start custom title-to-description spacing at 8 pt and description-to-content spacing at 24 pt. Align reading text to the leading edge. Center short result-screen copy only when it remains easy to scan. Essential warnings and instructions should not be visually demoted to faint tertiary text. Avoid duplicating a native navigation title with an identical oversized content heading.
 
 Let the platform resolve actual sizes, line metrics, and scaling rather than building the interface around fixed font pixels.
 
@@ -156,7 +165,74 @@ Sources: [SF Symbols](https://developer.apple.com/design/human-interface-guideli
 
 Source: [Accessibility](https://developer.apple.com/design/human-interface-guidelines/accessibility).
 
-## 13. Example project tokens
+## 13. Information text and feedback presentation
+
+**HIG guidance:** Match feedback prominence to its importance. Passive status can remain in context; interruptive alerts should convey critical, actionable information. Confirm significant completed tasks when confirmation helps. Use direct, understandable copy, and place errors near their cause without blaming the person.
+
+**Project defaults:**
+
+| Message | Presentation | Text and visual treatment |
+| --- | --- | --- |
+| Supporting explanation | Plain text beside relevant content | Secondary body or subheadline text |
+| Helpful information | Inline block when it needs grouping | Optional `info.circle`, body text; neutral surface |
+| Success after a routine edit | Update the affected content or show a short inline confirmation | Explicit result, optional checkmark; avoid forcing dismissal |
+| Warning requiring attention | Persistent inline message, or alert when a decision is necessary | Clear consequence, readable text, optional warning symbol |
+| Recoverable input error | Beside the invalid field | Specific correction, error symbol or color; preserve input |
+| Failure blocking a whole screen | Dedicated error state | Explanation plus a useful recovery action |
+
+Colors are project decisions: green for success, amber for warning, and red for errors are optional conventions, not universal Apple requirements. Pair them with words or symbols, check contrast, and leave long explanations in readable primary or secondary text. Do not color entire paragraphs merely to signal status. Important feedback must remain available long enough to read and be accessible to VoiceOver; do not rely on a disappearing visual banner alone.
+
+Sources: [Feedback](https://developer.apple.com/design/human-interface-guidelines/feedback), [Writing](https://developer.apple.com/design/human-interface-guidelines/writing).
+
+## 14. Success screen styles
+
+**Project pattern — Apple does not prescribe one universal success-page template:** Reserve a dedicated screen for meaningful completion, such as a confirmed booking, completed onboarding, or a transaction receipt. Routine saves usually need lighter feedback.
+
+Suggested hierarchy:
+
+1. Optional checkmark symbol, starting at 48 pt with an accessible success tint. Hide it from accessibility if it duplicates the title's meaning.
+2. Specific `.title2` semibold title in primary text: “Booking Confirmed.”
+3. `.body` description in secondary text: “Your appointment is scheduled for Tuesday at 10:00.”
+4. Optional summary using labeled details, dates, amounts, or reference numbers. Use primary text for essential facts.
+5. One prominent next action: “View Booking.” Add a quieter “Done” action only if it has a distinct purpose.
+
+Start symbol-to-title and title-to-description gaps at 16 and 8 pt, with 24 pt before the summary or actions. These are adjustable project tokens. Keep content scrollable at large text sizes; center short confirmation copy, but align detailed summaries to the leading edge. Keep controls reachable without covering the content.
+
+Show success only after the operation is confirmed. Distinguish “Request Sent” from “Booking Confirmed,” and pending processing from completion. Do not automatically dismiss an important receipt. Keep celebration optional and compatible with Reduce Motion.
+
+Source for feedback principles: [Feedback](https://developer.apple.com/design/human-interface-guidelines/feedback).
+
+## 15. Error screens and recovery
+
+**HIG guidance:** Use alerts sparingly and give them essential information and useful choices. A specific title explains the situation better than a generic error label or internal code. Use a neutral tone. Ordinary informational messages belong in context rather than an interruptive alert.
+
+**Project pattern:** Present a full-screen error state when the screen's primary content cannot be used; use local feedback when only one field or action failed.
+
+Suggested hierarchy:
+
+1. Optional contextual symbol, such as `wifi.slash` for a known connection issue; do not guess the cause.
+2. `.title2` semibold title in primary text: “Couldn’t Load Bookings.”
+3. `.body` explanation in secondary text with a known cause or practical next step.
+4. One useful primary action, such as “Try Again,” when retry can help.
+5. Optional secondary route, such as “Go Back,” “Sign In,” or “Contact Support,” appropriate to the failure.
+
+Use the same result-screen spacing and neutral background as the success pattern. Reserve red for the relevant status cue; retry is an ordinary action, not a destructive button. Preserve prior content and input where useful. During retry, show loading feedback and prevent duplicate requests. Restore the intended content on success.
+
+| Situation | Suggested response |
+| --- | --- |
+| Invalid input | Inline correction next to the field; retain other values |
+| Connection unavailable | Explain availability accurately; retry and usable cached content where supported |
+| Session expired | Explain that sign-in is needed; return to the task afterward |
+| Permission unavailable | Explain the relevant feature; offer an appropriate settings route or alternative |
+| Temporary service failure | Honest temporary failure message; retry when useful |
+| No items yet | Empty state with a creation action; do not present it as an error |
+| No search matches | Preserve the query; offer editing or clearing filters |
+
+Do not expose stack traces as the primary message, promise a recovery time you do not know, or show an endless retry loop. Add accessible descriptions and announce important state changes appropriately.
+
+Sources: [Alerts](https://developer.apple.com/design/human-interface-guidelines/alerts), [Writing](https://developer.apple.com/design/human-interface-guidelines/writing).
+
+## 16. Example project tokens
 
 These are starter decisions for custom surfaces, not Apple-issued tokens. Native component geometry should take priority.
 
@@ -180,15 +256,34 @@ customCardRadius: 16
 customCardCurve: continuous
 customPrimaryButtonShape: capsule
 ordinaryActionHitRegion: [44, 44]
-typography: system-text-styles-with-dynamic-type
+typography:
+  scaling: dynamic-type
+  screenTitle: native-navigation-title
+  resultTitle: title2-semibold
+  sectionHeading: title3-semibold
+  subsectionHeading: headline
+  readingText: body-primary
+  description: body-secondary
+  rowDescription: subheadline-secondary
+  information: footnote-secondary-or-body-for-essential-copy
+  metadata: caption-secondary
+resultScreens:
+  iconSize: 48
+  iconToTitleGap: 16
+  titleToDescriptionGap: 8
+  contentGroupGap: 24
+  background: systemBackground
+  successColor: accessible-project-success
+  errorColor: accessible-project-error
+  primaryActionColor: project-accent
 navigation: native-components
 materials: semantic-native-materials
 ```
 
-## 14. Copyable AI prompt
+## 17. Copyable AI prompt
 
-> Use this guide to design and implement an iOS/iPadOS app. First establish the target OS and framework. Apply the source-based guidance and use labeled project defaults only where custom design decisions are needed. Resolve colors, typography, control geometry, navigation, and materials through native components where possible. Produce a coherent screen hierarchy, complete interaction states, adaptive layouts, and accessible behavior. Explain any deliberate departure and distinguish your proposed numeric tokens from Apple's recommendations.
+> Use this guide to design and implement an iOS/iPadOS app. First establish the target OS and framework. Apply the source-based guidance and use labeled project defaults only where custom design decisions are needed. Resolve colors, typography, control geometry, navigation, and materials through native components where possible. Produce a coherent screen hierarchy, complete interaction states, adaptive layouts, accessible behavior, consistent text roles, contextual information messages, and success/error states with meaningful next actions. Explain any deliberate departure and distinguish your proposed numeric tokens from Apple's recommendations.
 
-## 15. Existing Markdown resource found online
+## 18. Existing Markdown resource found online
 
 A community-maintained [Markdown mirror of Apple's HIG](https://github.com/realmaitreal/Human-Interface-Guidelines) is available if you need a larger reference corpus. It is unofficial; verify freshness and platform-specific statements against Apple's original pages before relying on it. This guide uses Apple's official documentation as its factual basis.
