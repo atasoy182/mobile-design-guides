@@ -1,9 +1,13 @@
-# Apple Mobile Design Guide for AI
+# Mobile Design Guides for AI
 
-A concise, AI-ready Markdown reference for designing iOS and iPadOS apps, based on Apple's official Human Interface Guidelines.
+AI-ready Markdown references for mobile app design.
 
-Read [the design guide](apple-mobile-design-guide.md) for button colors, rounded corners, title and heading styles, body text, descriptions, informational messages, success screens, error recovery, spacing, navigation, materials, accessibility, sample project tokens, and a reusable AI prompt.
+## iOS and iPadOS
 
-The guide distinguishes source-based Apple recommendations from suggested project defaults. It is independently written and is not an official Apple document.
+Read [the Apple mobile design guide](ios/apple-mobile-design-guide.md) for colors, buttons, rounded corners, title and heading styles, body text, descriptions, informational messages, success screens, error recovery, spacing, navigation, materials, accessibility, project tokens, and a reusable AI prompt.
 
-Official reference: [Apple Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines).
+The guide is based on [Apple's Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines). It distinguishes source-based recommendations from suggested project defaults and is not an official Apple document.
+
+## Android
+
+The `android/` directory is reserved for a future Android guide. It currently contains only `.gitkeep` because Git does not track empty directories.
