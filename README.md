@@ -10,4 +10,6 @@ The guide is based on [Apple's Human Interface Guidelines](https://developer.app
 
 ## Android
 
-The `android/` directory is reserved for a future Android guide. It currently contains only `.gitkeep` because Git does not track empty directories.
+Read [the native Android design guide](android/android-mobile-design-guide.md) for Material 3 and Expressive adoption, dynamic color, typography, shapes, buttons, adaptive layouts, system Back, edge-to-edge, forms, feedback, success and error screens, accessibility, and AI project tokens.
+
+The Android guide is independently based on official Android and Material documentation. Suggested project patterns are distinguished from platform guidance.
